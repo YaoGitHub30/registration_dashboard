@@ -1,43 +1,72 @@
-import React, { Component } from 'react'
-import { AppBar,Toolbar,IconButton,Typography,InputBase,Switch} from "@mui/material";
+import React, { Component } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  Switch,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { ClassNames } from "@emotion/react";
 import { withStyles } from "@material-ui/core/styles";
 // import { createStyles, makeStyles } from '@mui/styles';
 import styles from "./styles/NavBarStyles";
-
-
+import { ThemeContext } from './contexts/ThemeContext';
+import {withLanguageContext} from './contexts/LanguageContext'
+const content = {
+    english: {
+      search: "Search",
+      flag: "🇬🇧"
+    },
+    french: {
+      search: "Chercher",
+      flag: "🇫🇷"
+    },
+    spanish: {
+      search: "Buscar",
+      flag: "🇪🇸"
+    }
+  };
 class Navbar extends Component {
-    render(){
-    const {classes}= this.props;
-  return (
-    <div className={classes.root}>
-      <AppBar postion="static" color="primary">
-        <Toolbar>
+    static contextType=ThemeContext;
+    render() {
+    const {isDarkMode,toggleTheme}=this.context;    
+    const { classes } = this.props;
+    const {language} = this.props.languageContext;
+    const {flag,search}=content[language];
+    
+    return (
+      <div className={classes.root}>
+        <AppBar postion="static" color={isDarkMode?'default':'primary'}>
+          <Toolbar>
             <IconButton className={classes.menuButton} color="inherit">
-                <span role='img' aria-label='English'>🇦🇺</span>
+              <span role="img" aria-label="English">
+                {flag}
+              </span>
             </IconButton>
             <Typography className={classes.title} color="inherit" variant="h6">
-                App title
+              {language[0].toUpperCase()+language.substr(1)}
             </Typography>
-            <Switch />
-            <div className={classes.grow} >
-            <div className={classes.search}>
+            <Switch  onChange={toggleTheme} />
+            <div className={classes.grow}>
+              <div className={classes.search}>
                 <div className={classes.searchIcon}>
-                    <Search />
+                  <Search />
                 </div>
-                <InputBase placeholder='search...' classes={{
-                    root:classes.inputRoot,
-                    input:classes.inputInput
-                }}>
-                </InputBase>
+                <InputBase
+                  placeholder={`${search}...`}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                ></InputBase>
+              </div>
             </div>
-            </div>
-        </Toolbar>
-
-      </AppBar>
-    </div>
-  );
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
-}
-export default withStyles(styles)(Navbar)
+export default withLanguageContext(withStyles(styles)(Navbar));

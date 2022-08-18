@@ -1,9 +1,20 @@
-import Navbar from './Navbar';
-import './App.css';
+import Navbar from "./Navbar";
+import Form from "./Form";
+import PageContent from "./PageContent";
+import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext";
+import "./App.css";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 function App() {
   return (
-     <Navbar />
+    <ThemeProvider>
+      <LanguageProvider>
+        <PageContent>
+          <Navbar />
+          <Form />
+        </PageContent>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 
