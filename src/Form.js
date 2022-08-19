@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React, {useContext} from "react";
 import {
   Avatar,
   Button,
-  CssBaseline,
   FormControl,
   FormControlLabel,
   Checkbox,
@@ -38,12 +37,9 @@ const words = {
     remember: "Recuérdame",
   },
 };
-class Form extends Component {
-  static contextType = LanguageContext;
-
-  render() {
-    const { language, changeLanguage } = this.context;
-    const { classes } = this.props;
+function Form(props){
+    const { language, changeLanguage } = useContext(LanguageContext);
+    const { classes } = props;
     const { email, signIn, password, remember } = words[language];
     return (
       <main className={classes.main}>
@@ -83,6 +79,6 @@ class Form extends Component {
         </Paper>
       </main>
     );
-  }
 }
+
 export default withStyles(styles)(Form);

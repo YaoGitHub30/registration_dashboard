@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {useContext} from "react";
 import {
   AppBar,
   Toolbar,
@@ -13,7 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 // import { createStyles, makeStyles } from '@mui/styles';
 import styles from "./styles/NavBarStyles";
 import { ThemeContext } from './contexts/ThemeContext';
-import {withLanguageContext} from './contexts/LanguageContext'
+import {LanguageContext} from './contexts/LanguageContext'
 const content = {
     english: {
       search: "Search",
@@ -28,12 +28,10 @@ const content = {
       flag: "🇪🇸"
     }
   };
-class Navbar extends Component {
-    static contextType=ThemeContext;
-    render() {
-    const {isDarkMode,toggleTheme}=this.context;    
-    const { classes } = this.props;
-    const {language} = this.props.languageContext;
+function Navbar(props){
+    const {isDarkMode,toggleTheme}=useContext(ThemeContext);    
+    const { classes } = props;
+    const {language} = useContext(LanguageContext);
     const {flag,search}=content[language];
     
     return (
@@ -67,6 +65,6 @@ class Navbar extends Component {
         </AppBar>
       </div>
     );
-  }
 }
-export default withLanguageContext(withStyles(styles)(Navbar));
+
+export default withStyles(styles)(Navbar);
